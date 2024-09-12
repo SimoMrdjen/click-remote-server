@@ -14,6 +14,11 @@ const io = socketIo(server);
 // Use Heroku's dynamic port, or default to 3000 for local development
 const PORT = process.env.PORT || 3000;
 
+// Serve a simple message for the root route (or you can serve an HTML file)
+app.get("/", (req, res) => {
+  res.send("Server is up and running!");
+});
+
 io.on("connection", (socket) => {
   console.log("Client connected");
 
@@ -26,4 +31,9 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });
+});
+
+// Start the server and listen on the specified port
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
