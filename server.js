@@ -1,4 +1,8 @@
-const io = require('socket.io')(3000); // WebSocket server listens on port 3000
+const PORT = process.env.PORT || 3000; // Use Heroku's port or fallback to 3000 for local development
+const io = require('socket.io')(PORT);
+
+/*for local deployment
+const io = require('socket.io')(3000);*/
 
 io.on('connection', (socket) => {
   console.log('Client connected');
