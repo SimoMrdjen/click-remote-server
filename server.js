@@ -14,18 +14,20 @@ const io = socketIo(server);
 // Use Heroku's dynamic port, or default to 3000 for local development
 const PORT = process.env.PORT || 3000;
 
-// Serve a simple message for the root route (or you can serve an HTML file)
+// Serve a simple message for the root route
 app.get("/", (req, res) => {
   res.send("Server is up and running!");
 });
 
+// Handle socket.io connections
 io.on("connection", (socket) => {
   console.log("Client connected");
 
-  // Listen for 'click' events from mobile app
+  // Listen for 'click' events from the mobile app
   socket.on("click", () => {
     console.log("Received click event");
-    socket.broadcast.emit("performClick"); // Broadcast event to connected clients (PC)
+    // Broadcast event to all connected clients
+    io.emit("performClick"); // Changed to io.emit to ensure all clients receive it
   });
 
   socket.on("disconnect", () => {
