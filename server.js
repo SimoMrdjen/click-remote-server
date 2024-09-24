@@ -11,25 +11,25 @@ const server = http.createServer(app);
 // Attach socket.io to the HTTP server
 const io = socketIo(server);
 
-// Use Heroku's dynamic port, or default to 3000 for local development
+// Use Heroku's dynamic port, or fallback to 3000 for local development
 const PORT = process.env.PORT || 3000;
 
 // Serve a simple message for the root route
 app.get("/", (req, res) => {
-  res.send("Server is up and running!");
+  res.send("WebSocket test server is running!");
 });
 
-// Handle socket.io connections
+// Handle WebSocket connections
 io.on("connection", (socket) => {
   console.log("Client connected");
 
-  // Listen for 'click' events from the mobile app
+  // Listen for 'click' events from any client (e.g., mobile app)
   socket.on("click", () => {
     console.log("Received click event");
-    // Broadcast event to all connected clients
-    io.emit("performClick"); // Changed to io.emit to ensure all clients receive it
+    io.emit("performClick"); // Broadcast the click event to all connected clients (PC, etc.)
   });
 
+  // Handle disconnection
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });
