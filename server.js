@@ -9,7 +9,13 @@ const app = express();
 const server = http.createServer(app);
 
 // Attach socket.io to the HTTP server
-const io = socketIo(server);
+const io = require("socket.io")(server, {
+  transports: ["websocket"], // Ensure that WebSocket is being used
+  cors: {
+    origin: "*", // For development, you can allow all origins; restrict this in production
+    methods: ["GET", "POST"],
+  },
+});
 
 // Use Heroku's dynamic port, or fallback to 3000 for local development
 const PORT = process.env.PORT || 3000;
